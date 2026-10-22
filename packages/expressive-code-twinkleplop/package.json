@@ -16,8 +16,12 @@
     "prepack": "pnpm build"
   },
   "devDependencies": {
+    "@expressive-code/core": "^0.44.2",
     "publint": "^0.3.24",
     "tsdown": "^0.23.0"
+  },
+  "peerDependencies": {
+    "@expressive-code/core": ">=0.44.0"
   },
   "publishConfig": {
     "access": "public",
