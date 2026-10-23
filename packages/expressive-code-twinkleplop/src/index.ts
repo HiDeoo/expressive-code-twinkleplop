@@ -1,23 +1,25 @@
 import { definePlugin, InlineStyleAnnotation, type ExpressiveCodePlugin } from '@expressive-code/core'
 
+import { resolveLanguages, type Language } from './libs/languages'
 import { getTokenScope } from './libs/scopes'
 import { getTokenStyle } from './libs/styles'
 
 const plainTextLanguages = new Set(['', 'plain', 'plaintext', 'text', 'txt'])
 
 export function pluginTwinkleplop(options: PluginTwinkleplopOptions): ExpressiveCodePlugin {
+  const languages = resolveLanguages(options.languages)
+
   return definePlugin({
     name: 'Twinkleplop',
     hooks: {
       performSyntaxAnalysis: ({ codeBlock, config: { logger }, styleVariants }) => {
-        const tokenize = options.languages[codeBlock.language]
+        const tokenize = languages.get(codeBlock.language)
         if (!tokenize) {
           if (plainTextLanguages.has(codeBlock.language)) return
 
           const document = codeBlock.parentDocument?.sourceFilePath
           const message = `// TODO(HiDeoo) ${document}`
 
-          // TODO(HiDeoo) astro error + hint
           if (options.onUnknownLanguage === 'throw') throw new Error(message)
 
           logger.warn(`${message} // TODO(HiDeoo) `)
@@ -79,17 +81,9 @@ export function pluginTwinkleplop(options: PluginTwinkleplopOptions): Expressive
   })
 }
 
-type TwinkleplopTokenizer = (code: string) => TwinkleplopTokenizeResult
-
-interface TwinkleplopTokenizeResult {
-  // TODO(HiDeoo) Can we reuse the type from @twinkleplop/core now?
-  tokens: Uint32Array // [typeIndex, start, end]
-  token_types: string[]
-}
-
 export interface PluginTwinkleplopOptions {
   // TODO(HiDeoo)
-  languages: Record<string, TwinkleplopTokenizer>
+  languages: Record<string, Language>
   // TODO(HiDeoo)
   onUnknownLanguage?: 'plain' | 'throw' | undefined
 }
