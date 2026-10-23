@@ -1,10 +1,13 @@
 import { definePlugin, InlineStyleAnnotation, type ExpressiveCodePlugin } from '@expressive-code/core'
 
+import { getTokenScope } from './libs/scopes'
+import { getTokenStyle } from './libs/styles'
+
 export function pluginTwinkleplop(options: PluginTwinkleplopOptions): ExpressiveCodePlugin {
   return definePlugin({
     name: 'Twinkleplop',
     hooks: {
-      performSyntaxAnalysis: ({ codeBlock }) => {
+      performSyntaxAnalysis: ({ codeBlock, styleVariants }) => {
         const tokenize = options.languages[codeBlock.language]
         if (!tokenize) return
 
@@ -34,12 +37,25 @@ export function pluginTwinkleplop(options: PluginTwinkleplopOptions): Expressive
             if (columnEnd <= columnStart) continue
 
             const type = token_types[typeIndex]
-            const color = type ? options.colors[type] : undefined
-            if (!color) continue
+            const scope = type ? getTokenScope(type) : undefined
+            if (!scope) continue
 
-            line.addAnnotation(
-              new InlineStyleAnnotation({ color, inlineRange: { columnStart, columnEnd }, renderPhase: 'earliest' }),
-            )
+            for (const [styleVariantIndex, { theme }] of styleVariants.entries()) {
+              const { color, fontStyle } = getTokenStyle(theme, scope)
+
+              line.addAnnotation(
+                new InlineStyleAnnotation({
+                  bold: fontStyle?.includes('bold'),
+                  color: color ?? theme.fg,
+                  inlineRange: { columnStart, columnEnd },
+                  italic: fontStyle?.includes('italic'),
+                  renderPhase: 'earliest',
+                  strikethrough: fontStyle?.includes('strikethrough'),
+                  styleVariantIndex,
+                  underline: fontStyle?.includes('underline'),
+                }),
+              )
+            }
           }
 
           // Move to the next line after the line break.
@@ -58,8 +74,6 @@ interface TwinkleplopTokenizeResult {
 }
 
 export interface PluginTwinkleplopOptions {
-  // TODO(HiDeoo)
-  colors: Record<string, string>
   // TODO(HiDeoo)
   languages: Record<string, TwinkleplopTokenizer>
 }
