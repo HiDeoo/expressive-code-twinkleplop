@@ -42,6 +42,21 @@ export function isTokenizeResult(value: unknown): value is TwinkleplopTokenizeRe
   )
 }
 
+export function resolveDefaultLanguage(languages: Map<string, TwinkleplopTokenizer>, name: string | undefined) {
+  if (!name) return
+
+  const tokenizer = languages.get(name)
+
+  if (!tokenizer) {
+    throw new UserError(
+      `The default language \`${name}\` is not configured.`,
+      'Add it to the `languages` option or set the `defaultLanguage` option to a configured language.',
+    )
+  }
+
+  return tokenizer
+}
+
 function resolveAlias(languages: Record<string, Language>, name: string): string {
   const aliases = [name]
   let target = name

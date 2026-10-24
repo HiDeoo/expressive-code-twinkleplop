@@ -1,7 +1,7 @@
 import { definePlugin, InlineStyleAnnotation, type ExpressiveCodePlugin } from '@expressive-code/core'
 
 import { UserError, warnUser } from './libs/errors'
-import { isTokenizeResult, resolveLanguages, type Language } from './libs/languages'
+import { isTokenizeResult, resolveDefaultLanguage, resolveLanguages, type Language } from './libs/languages'
 import { getTokenScope } from './libs/scopes'
 import { getTokenStyle } from './libs/styles'
 
@@ -10,13 +10,15 @@ const plainTextLanguages = new Set(['', 'plain', 'plaintext', 'text', 'txt'])
 
 export function pluginTwinkleplop(options: PluginTwinkleplopOptions): ExpressiveCodePlugin {
   const languages = resolveLanguages(options.languages)
+  const defaultLanguage = resolveDefaultLanguage(languages, options.defaultLanguage)
   const reportedUnknownLanguages = new Set<string>()
 
   return definePlugin({
     name: 'Twinkleplop',
     hooks: {
       performSyntaxAnalysis: ({ codeBlock, config: { logger }, styleVariants }) => {
-        const tokenize = languages.get(codeBlock.language)
+        const tokenize = codeBlock.language ? languages.get(codeBlock.language) : defaultLanguage
+
         if (!tokenize) {
           if (plainTextLanguages.has(codeBlock.language)) return
 
@@ -108,6 +110,8 @@ export function pluginTwinkleplop(options: PluginTwinkleplopOptions): Expressive
 }
 
 export interface PluginTwinkleplopOptions {
+  // TODO(HiDeoo)
+  defaultLanguage?: string | undefined
   // TODO(HiDeoo)
   languages: Record<string, Language>
   // TODO(HiDeoo)

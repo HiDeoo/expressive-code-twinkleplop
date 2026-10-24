@@ -123,6 +123,26 @@ describe('embedded languages', () => {
   })
 })
 
+describe('default language', () => {
+  test('highlights code blocks without a language with the default language', async () => {
+    const { engine } = makeEngine({ defaultLanguage: 'typescript', languages: { ts: tokenizer, typescript: 'ts' } })
+
+    const result = await render(engine, { lang: '' })
+
+    expect(isHighlighted(result)).toBe(true)
+  })
+
+  test('throws when the default language is not configured', () => {
+    expect(() => pluginTwinkleplop({ defaultLanguage: 'js', languages: { ts: tokenizer } }))
+      .toThrowErrorMatchingInlineSnapshot(`
+      [UserError: The default language \`js\` is not configured.
+
+      Hint: Add it to the \`languages\` option or set the \`defaultLanguage\` option to a configured language.
+      ]
+    `)
+  })
+})
+
 function tokenizer(code: string) {
   return { tokens: new Uint32Array([0, 0, code.length]), token_types: ['keyword'] }
 }
