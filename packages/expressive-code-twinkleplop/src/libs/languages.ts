@@ -11,6 +11,17 @@ export function resolveLanguages(languages: Record<string, Language>): Map<strin
   return resolved
 }
 
+export function isTokenizeResult(value: unknown): value is TwinkleplopTokenizeResult {
+  return (
+    typeof value === 'object' &&
+    value !== null &&
+    'tokens' in value &&
+    value.tokens instanceof Uint32Array &&
+    'token_types' in value &&
+    Array.isArray(value.token_types)
+  )
+}
+
 function resolveLanguage(languages: Record<string, Language>, name: string): TwinkleplopTokenizer {
   const aliases = [name]
   let language = languages[name]
@@ -37,7 +48,7 @@ function resolveLanguage(languages: Record<string, Language>, name: string): Twi
   if (typeof language !== 'function') {
     throw new UserError(
       `The language \`${name}\` is not configured correctly.`,
-      'Set it to the result of calling `tokenize()` from a Twinkleplop language package or to the name of another language in the `languages` option.',
+      'Set it to the result of calling the `tokenize` export from a Twinkleplop language package or to the name of another language in the `languages` option.',
     )
   }
 

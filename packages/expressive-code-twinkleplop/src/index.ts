@@ -1,7 +1,7 @@
 import { definePlugin, InlineStyleAnnotation, type ExpressiveCodePlugin } from '@expressive-code/core'
 
 import { UserError, warnUser } from './libs/errors'
-import { resolveLanguages, type Language } from './libs/languages'
+import { isTokenizeResult, resolveLanguages, type Language } from './libs/languages'
 import { getTokenScope } from './libs/scopes'
 import { getTokenStyle } from './libs/styles'
 
@@ -44,7 +44,16 @@ export function pluginTwinkleplop(options: PluginTwinkleplopOptions): Expressive
         }
 
         // We tokenize the entire code block to handle tokens spanning multiple lines correctly.
-        const { tokens, token_types } = tokenize(codeBlock.code)
+        const result: unknown = tokenize(codeBlock.code)
+
+        if (!isTokenizeResult(result)) {
+          throw new UserError(
+            `The language \`${codeBlock.language}\` is not configured correctly.`,
+            'Set it to the result of calling the `tokenize` export from a Twinkleplop language package, not to the export itself or to the `language` export.',
+          )
+        }
+
+        const { tokens, token_types } = result
 
         // Offset of the current line within the code block.
         let lineStart = 0
