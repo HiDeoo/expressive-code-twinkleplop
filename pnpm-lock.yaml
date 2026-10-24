@@ -211,7 +211,13 @@ importers:
       '@hideoo/starlight-plugins-docs-components':
         specifier: ^0.5.0
         version: 0.5.0(@astrojs/starlight@0.42.6(astro@7.4.0(@types/node@24.19.2)(yaml@2.9.1))(typescript@6.0.3))
+      '@twinkleplop/markdown':
+        specifier: ^0.2.1
+        version: 0.2.1
       '@twinkleplop/typescript':
+        specifier: ^0.1.7
+        version: 0.1.7
+      '@twinkleplop/yaml':
         specifier: ^0.1.7
         version: 0.1.7
       astro:
@@ -1173,8 +1179,14 @@ packages:
   '@twinkleplop/javascript@0.1.7':
     resolution: {integrity: sha512-qZDFx0bTM8YdKBTCxIS+6dZ1itaTnn1Udf2wFW5Uo+S6liGm40Lq2rlCk3PYa+Hm4lmX6HSzFeO4ZaDqk6Cn9Q==}
 
+  '@twinkleplop/markdown@0.2.1':
+    resolution: {integrity: sha512-uff5OXuSnlSWuPCYJWCQ+yMsOAvGCzljP8mIDQ4oj2ezkMAdhwh/McNXZ1odg4xpSp7hlwbu+UHbRl5FvG4kSQ==}
+
   '@twinkleplop/typescript@0.1.7':
     resolution: {integrity: sha512-3lVdFUnOc40QQUJPnmTsiyTf7+RSEoXhDnmMwkUQ5Kzgemkk6eeXQGietPjxro8k+QuTAY/aQuWOtR/nUgfENw==}
+
+  '@twinkleplop/yaml@0.1.7':
+    resolution: {integrity: sha512-GzsP3RuMYAnMx82pFUxICplG5s2GXxGst8dyxM7p1ONGp1f6NsFdc7OChtoIcT3PzXWQN/ctPJdv5rpr7tXs3w==}
 
   '@tybys/wasm-util@0.10.4':
     resolution: {integrity: sha512-W3c4gRigFS0T/Ma4qIYF3GDAc5AQdHb1yL5znJT1Zv1YaD9Kitx656wBjvr19qbiosmZT8lWDM5BEMynUqX65A==}
@@ -4516,10 +4528,18 @@ snapshots:
       '@twinkleplop/css': 0.1.7
       '@twinkleplop/html': 0.1.7
 
+  '@twinkleplop/markdown@0.2.1':
+    dependencies:
+      '@twinkleplop/core': 0.3.1
+
   '@twinkleplop/typescript@0.1.7':
     dependencies:
       '@twinkleplop/core': 0.3.1
       '@twinkleplop/javascript': 0.1.7
+
+  '@twinkleplop/yaml@0.1.7':
+    dependencies:
+      '@twinkleplop/core': 0.3.1
 
   '@tybys/wasm-util@0.10.4':
     dependencies:

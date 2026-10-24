@@ -1,5 +1,5 @@
 import { isInlineStyleAnnotation } from '@expressive-code/core'
-import { describe, expect, test } from 'vitest'
+import { assert, describe, expect, test } from 'vitest'
 
 import { pluginTwinkleplop } from '../src'
 
@@ -78,6 +78,51 @@ describe('invalid tokenizers', () => {
   })
 })
 
+describe('embedded languages', () => {
+  test('embeds all configured languages', async () => {
+    const { engine } = makeEngine({
+      languages: {
+        md: { embed: (languages) => assertEmbeddedLanguage(languages, 'typescript') },
+        ts: tokenizer,
+        typescript: 'ts',
+      },
+    })
+
+    const result = await render(engine, { lang: 'md' })
+
+    expect(isHighlighted(result)).toBe(true)
+  })
+
+  test('embeds the embedding language itself', async () => {
+    const { engine } = makeEngine({
+      languages: {
+        md: {
+          embed: (languages) => {
+            const md = assertEmbeddedLanguage(languages, 'md')
+            return (code) => (code === 'nested' ? tokenizer(code) : md('nested'))
+          },
+        },
+      },
+    })
+
+    const result = await render(engine, { code: 'parent', lang: 'md' })
+
+    expect(isHighlighted(result)).toBe(true)
+  })
+
+  test('throws when an embedding language does not return a tokenizer', () => {
+    expect(() =>
+      // @ts-expect-error - testing an embedding language returning an invalid tokenizer
+      pluginTwinkleplop({ languages: { md: { embed: () => 'invalid' } } }),
+    ).toThrowErrorMatchingInlineSnapshot(`
+      [UserError: The language \`md\` is not configured correctly.
+
+      Hint: Set it to the result of calling the \`tokenize\` export from a Twinkleplop language package or to the name of another language in the \`languages\` option. A language embedding other languages can also be set to an object with an \`embed\` function returning the result of calling a \`tokenize\` export.
+      ]
+    `)
+  })
+})
+
 function tokenizer(code: string) {
   return { tokens: new Uint32Array([0, 0, code.length]), token_types: ['keyword'] }
 }
@@ -88,4 +133,10 @@ function isHighlighted({ renderedGroupContents }: RenderResult) {
       .getLines()
       .some((line) => line.getAnnotations().some((annotation) => isInlineStyleAnnotation(annotation))) ?? false
   )
+}
+
+function assertEmbeddedLanguage<T>(languages: Record<string, T>, name: string): T {
+  const language = languages[name]
+  assert.isDefined(language, `The embedded language \`${name}\` is not available.`)
+  return language
 }
