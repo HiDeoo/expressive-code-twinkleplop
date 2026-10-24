@@ -1,13 +1,16 @@
 import { definePlugin, InlineStyleAnnotation, type ExpressiveCodePlugin } from '@expressive-code/core'
 
+import { UserError, warnUser } from './libs/errors'
 import { resolveLanguages, type Language } from './libs/languages'
 import { getTokenScope } from './libs/scopes'
 import { getTokenStyle } from './libs/styles'
 
+// Languages used for plain text which are never highlighted or reported as unknown.
 const plainTextLanguages = new Set(['', 'plain', 'plaintext', 'text', 'txt'])
 
 export function pluginTwinkleplop(options: PluginTwinkleplopOptions): ExpressiveCodePlugin {
   const languages = resolveLanguages(options.languages)
+  const reportedUnknownLanguages = new Set<string>()
 
   return definePlugin({
     name: 'Twinkleplop',
@@ -18,11 +21,25 @@ export function pluginTwinkleplop(options: PluginTwinkleplopOptions): Expressive
           if (plainTextLanguages.has(codeBlock.language)) return
 
           const document = codeBlock.parentDocument?.sourceFilePath
-          const message = `// TODO(HiDeoo) ${document}`
+          const message = `The language \`${codeBlock.language}\` used in ${document ? `\`${document}\`` : 'a code block'} is not configured.`
 
-          if (options.onUnknownLanguage === 'throw') throw new Error(message)
+          if (options.onUnknownLanguage === 'throw') {
+            throw new UserError(
+              message,
+              "Add it to the `languages` option or set the `onUnknownLanguage` option to `'plain'` to render code in unknown languages without any syntax highlighting.",
+            )
+          }
 
-          logger.warn(`${message} // TODO(HiDeoo) `)
+          // We only report each unknown language for a specific document once.
+          const key = `${codeBlock.language} ${document}`
+          if (reportedUnknownLanguages.has(key)) return
+          reportedUnknownLanguages.add(key)
+
+          warnUser(
+            logger,
+            `${message} Code blocks using this language will not be highlighted.`,
+            'Add it to the `languages` option to highlight them.',
+          )
           return
         }
 

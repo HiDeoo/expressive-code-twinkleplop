@@ -18,6 +18,7 @@
   "devDependencies": {
     "@expressive-code/core": "^0.44.2",
     "@twinkleplop/core": "^0.3.1",
+    "@types/node": "^24.19.2",
     "publint": "^0.3.24",
     "tsdown": "^0.23.0"
   },

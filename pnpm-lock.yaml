@@ -211,15 +211,30 @@ importers:
       '@hideoo/starlight-plugins-docs-components':
         specifier: ^0.5.0
         version: 0.5.0(@astrojs/starlight@0.42.6(astro@7.4.0(@types/node@24.19.2)(yaml@2.9.1))(typescript@6.0.3))
+      '@twinkleplop/typescript':
+        specifier: ^0.1.7
+        version: 0.1.7
       astro:
         specifier: ^7.4.0
         version: 7.4.0(@types/node@24.19.2)(yaml@2.9.1)
+      expressive-code-twinkleplop:
+        specifier: workspace:*
+        version: link:../packages/expressive-code-twinkleplop
       sharp:
         specifier: ^0.35.5
         version: 0.35.5(@types/node@24.19.2)
 
   packages/expressive-code-twinkleplop:
     devDependencies:
+      '@expressive-code/core':
+        specifier: ^0.44.2
+        version: 0.44.2
+      '@twinkleplop/core':
+        specifier: ^0.3.1
+        version: 0.3.1
+      '@types/node':
+        specifier: ^24.19.2
+        version: 24.19.2
       publint:
         specifier: ^0.3.24
         version: 0.3.25
@@ -1135,6 +1150,21 @@ packages:
 
   '@shikijs/vscode-textmate@10.0.2':
     resolution: {integrity: sha512-83yeghZ2xxin3Nj8z1NMd/NCuca+gsYXswywDy5bHvwlWL8tpTQmzGeUuHd9FC3E/SBEMvzJRwWEOz5gGes9Qg==}
+
+  '@twinkleplop/core@0.3.1':
+    resolution: {integrity: sha512-fMbce7NcJlVROsyI34tz3DCWkAWRWLRlBNCbgwz36mm6yoEO09eyafi8JRN5HJGQIzMr0qjXQ3t3asc7MFSh8Q==}
+
+  '@twinkleplop/css@0.1.7':
+    resolution: {integrity: sha512-eznre7EgC0IBE3/jqAUKXG2S4iWLczOSAxwLnknS+9BQQGuD82u2A2rCok94E+nMpjkeshhbSvnQxDSEo8YpUA==}
+
+  '@twinkleplop/html@0.1.7':
+    resolution: {integrity: sha512-tpc+I1OXR5UJYkIhna74rxxEBYUJMWTNkjAVH9sA6fKeWq9lmbLRhutb10PHeMuF6BTHuHgD9oyET7yKdZGeQA==}
+
+  '@twinkleplop/javascript@0.1.7':
+    resolution: {integrity: sha512-qZDFx0bTM8YdKBTCxIS+6dZ1itaTnn1Udf2wFW5Uo+S6liGm40Lq2rlCk3PYa+Hm4lmX6HSzFeO4ZaDqk6Cn9Q==}
+
+  '@twinkleplop/typescript@0.1.7':
+    resolution: {integrity: sha512-3lVdFUnOc40QQUJPnmTsiyTf7+RSEoXhDnmMwkUQ5Kzgemkk6eeXQGietPjxro8k+QuTAY/aQuWOtR/nUgfENw==}
 
   '@tybys/wasm-util@0.10.4':
     resolution: {integrity: sha512-W3c4gRigFS0T/Ma4qIYF3GDAc5AQdHb1yL5znJT1Zv1YaD9Kitx656wBjvr19qbiosmZT8lWDM5BEMynUqX65A==}
@@ -4362,6 +4392,29 @@ snapshots:
       '@types/hast': 3.0.5
 
   '@shikijs/vscode-textmate@10.0.2': {}
+
+  '@twinkleplop/core@0.3.1': {}
+
+  '@twinkleplop/css@0.1.7':
+    dependencies:
+      '@twinkleplop/core': 0.3.1
+
+  '@twinkleplop/html@0.1.7':
+    dependencies:
+      '@twinkleplop/core': 0.3.1
+      '@twinkleplop/css': 0.1.7
+      '@twinkleplop/javascript': 0.1.7
+
+  '@twinkleplop/javascript@0.1.7':
+    dependencies:
+      '@twinkleplop/core': 0.3.1
+      '@twinkleplop/css': 0.1.7
+      '@twinkleplop/html': 0.1.7
+
+  '@twinkleplop/typescript@0.1.7':
+    dependencies:
+      '@twinkleplop/core': 0.3.1
+      '@twinkleplop/javascript': 0.1.7
 
   '@tybys/wasm-util@0.10.4':
     dependencies:
