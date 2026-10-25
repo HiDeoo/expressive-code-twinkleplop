@@ -3,7 +3,7 @@ import { expect, test } from 'vitest'
 
 import { makeEngine, render, type RenderResult } from './utils'
 
-const cases = [
+const cases: HighlightCase[] = [
   {
     name: 'a token on a single line',
     code: 'a b',
@@ -50,12 +50,7 @@ const cases = [
       [[0, 1]],
     ],
   },
-] satisfies {
-  name: string
-  code: string
-  tokens: Token[]
-  ranges: number[][][]
-}[]
+]
 
 test.for(cases)('highlights $name', async ({ code, ranges, tokens }) => {
   const { engine } = makeEngine({ languages: { test: makeTokenizer(tokens) } })
@@ -91,3 +86,10 @@ function getHighlightedRanges({ renderedGroupContents }: RenderResult) {
 }
 
 type Token = [type: string, start: number, end: number]
+
+interface HighlightCase {
+  name: string
+  code: string
+  tokens: Token[]
+  ranges: number[][][]
+}

@@ -1,5 +1,7 @@
 import type * as tokenTypes from '@twinkleplop/core/tokens'
 
+import type { MdxTokenType } from '../languages/mdx/grammar'
+
 /**
  * A hand-crafted mapping of Twinkleplop token types to TextMate scopes used by Expressive Code to color tokens.
  * Tokens mapped to `undefined` are not colored.
@@ -69,7 +71,7 @@ const tokenScopes: Record<TokenType, string | undefined> = {
   bold: 'markup.bold.markdown',
   code: 'markup.inline.raw.string.markdown',
   code_block: 'markup.raw.block.markdown',
-  code_language: 'fenced_code.block.language',
+  code_language: 'fenced_code.block.language.markdown',
   italic: 'markup.italic.markdown',
   link_text: 'string.other.link.title.markdown',
   strike: 'markup.strikethrough.markdown',
@@ -143,6 +145,11 @@ const tokenScopes: Record<TokenType, string | undefined> = {
   plain_scalar: undefined,
   tag: 'storage.type.tag-handle',
   null: 'constant.language.null',
+
+  // mdx
+  mdx_component: 'support.class.component.jsx',
+  raw_mdx_esm: undefined,
+  raw_mdx_expression: undefined,
 }
 
 export function getTokenScope(type: string): string | undefined {
@@ -153,4 +160,4 @@ function isTokenType(type: string): type is TokenType {
   return Object.hasOwn(tokenScopes, type)
 }
 
-type TokenType = (typeof tokenTypes)[keyof typeof tokenTypes]
+type TokenType = (typeof tokenTypes)[keyof typeof tokenTypes] | MdxTokenType

@@ -2,7 +2,7 @@ import { defineConfig } from 'tsdown'
 
 export default defineConfig({
   dts: true,
-  entry: ['src/index.ts'],
+  entry: ['src/index.ts', 'src/languages/*/index.ts'],
   fixedExtension: false,
   publint: { strict: true },
   root: 'src',

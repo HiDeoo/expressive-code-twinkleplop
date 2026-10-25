@@ -7,6 +7,7 @@
   "type": "module",
   "exports": {
     ".": "./src/index.ts",
+    "./languages/*": "./src/languages/*/index.ts",
     "./package.json": "./package.json"
   },
   "scripts": {
@@ -18,13 +19,34 @@
   "devDependencies": {
     "@expressive-code/core": "^0.44.2",
     "@twinkleplop/core": "^0.3.1",
+    "@twinkleplop/markdown": "^0.2.1",
+    "@twinkleplop/tsx": "^0.1.7",
+    "@twinkleplop/yaml": "^0.1.7",
     "@types/node": "^24.19.2",
     "publint": "^0.3.24",
     "tsdown": "^0.23.0",
     "vitest": "^5.0.5"
   },
   "peerDependencies": {
-    "@expressive-code/core": ">=0.44.0"
+    "@expressive-code/core": ">=0.44.0",
+    "@twinkleplop/core": "^0.3.1",
+    "@twinkleplop/markdown": "^0.2.1",
+    "@twinkleplop/tsx": "^0.1.7",
+    "@twinkleplop/yaml": "^0.1.7"
+  },
+  "peerDependenciesMeta": {
+    "@twinkleplop/core": {
+      "optional": true
+    },
+    "@twinkleplop/markdown": {
+      "optional": true
+    },
+    "@twinkleplop/tsx": {
+      "optional": true
+    },
+    "@twinkleplop/yaml": {
+      "optional": true
+    }
   },
   "publishConfig": {
     "access": "public",
@@ -32,6 +54,10 @@
       ".": {
         "types": "./dist/index.d.ts",
         "default": "./dist/index.js"
+      },
+      "./languages/*": {
+        "types": "./dist/languages/*/index.d.ts",
+        "default": "./dist/languages/*/index.js"
       },
       "./package.json": "./package.json"
     }

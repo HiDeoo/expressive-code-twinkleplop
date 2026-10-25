@@ -3,7 +3,7 @@ import { expect, test } from 'vitest'
 
 import { getTokenStyle } from '../src/libs/styles'
 
-const cases = [
+const cases: StyleCase[] = [
   {
     name: 'uses the most specific selector whatever the rule order',
     rules: [
@@ -34,7 +34,15 @@ const cases = [
     scope: 'string',
     expected: { color: undefined, fontStyle: undefined },
   },
-] satisfies {
+]
+
+test.for(cases)('$name', ({ expected, rules, scope }) => {
+  const theme = new ExpressiveCodeTheme({ tokenColors: rules })
+
+  expect(getTokenStyle(theme, scope)).toEqual(expected)
+})
+
+interface StyleCase {
   name: string
   rules: {
     scope: string
@@ -42,10 +50,4 @@ const cases = [
   }[]
   scope: string
   expected: ReturnType<typeof getTokenStyle>
-}[]
-
-test.for(cases)('$name', ({ expected, rules, scope }) => {
-  const theme = new ExpressiveCodeTheme({ tokenColors: rules })
-
-  expect(getTokenStyle(theme, scope)).toEqual(expected)
-})
+}
