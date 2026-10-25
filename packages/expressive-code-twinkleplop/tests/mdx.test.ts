@@ -1,4 +1,3 @@
-import type { LanguageFn } from '@twinkleplop/core'
 import { verify } from '@twinkleplop/core/compile'
 import { tokenize as tsx } from '@twinkleplop/tsx'
 import { tokenize as yaml } from '@twinkleplop/yaml'
@@ -6,6 +5,8 @@ import { describe, expect, test } from 'vitest'
 
 import { tokenize } from '../src/languages/mdx'
 import { mdxRawGrammar } from '../src/languages/mdx/grammar'
+
+import { getExpressionTokens, getTokens, type Token, type TokenizeCase } from './utils'
 
 const mdx = tokenize()
 const script = tsx()
@@ -43,28 +44,6 @@ describe('ESM', () => {
 describe('expressions', () => {
   const cases: TokenizeCase[] = [
     { name: 'an expression', code: '{foo}', tokens: getExpressionTokens('foo') },
-    { name: 'nested braces', code: "{{ foo: 'bar' }}", tokens: getExpressionTokens("{ foo: 'bar' }") },
-    {
-      name: 'a comment',
-      code: "{/* dont't update this code */}",
-      tokens: getExpressionTokens("/* dont't update this code */"),
-    },
-    { name: 'an escaped character', code: String.raw`{'Don\'t'}`, tokens: getExpressionTokens(String.raw`'Don\'t'`) },
-    // eslint-disable-next-line no-template-curly-in-string
-    { name: 'a template literal', code: '{`Hello ${name}`}', tokens: getExpressionTokens('`Hello ${name}`') },
-    {
-      name: 'braces in a template literal',
-      code: "<style>{`body { font-family: 'Inter' }`}</style>",
-      tokens: [
-        ['punctuation', '<'],
-        ['tag_name', 'style'],
-        ['punctuation', '>'],
-        ...getExpressionTokens("`body { font-family: 'Inter' }`"),
-        ['punctuation', '</'],
-        ['tag_name', 'style'],
-        ['punctuation', '>'],
-      ],
-    },
     {
       name: 'an expression inside Markdown syntax',
       code: '**{x}**',
@@ -198,29 +177,3 @@ describe('Markdown', () => {
     ])
   })
 })
-
-function getTokens(tokenizer: LanguageFn, code: string): Token[] {
-  const { tokens, token_types } = tokenizer(code)
-  const result: Token[] = []
-
-  for (let index = 0; index < tokens.length; index += 3) {
-    const [type = 0, start = 0, end = 0] = tokens.subarray(index, index + 3)
-    const name = token_types[type] ?? ''
-    // Skip newline tokens which are not highlighted.
-    if (name !== 'newline') result.push([name, code.slice(start, end)])
-  }
-
-  return result
-}
-
-function getExpressionTokens(code: string): Token[] {
-  return [['expression', '{'], ...getTokens(script, code), ['expression', '}']]
-}
-
-type Token = [type: string, text: string]
-
-interface TokenizeCase {
-  name: string
-  code: string
-  tokens: Token[]
-}

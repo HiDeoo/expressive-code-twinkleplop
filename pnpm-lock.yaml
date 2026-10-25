@@ -238,6 +238,12 @@ importers:
       '@twinkleplop/core':
         specifier: ^0.3.1
         version: 0.3.1
+      '@twinkleplop/css':
+        specifier: ^0.1.7
+        version: 0.1.7
+      '@twinkleplop/html':
+        specifier: ^0.1.7
+        version: 0.1.7
       '@twinkleplop/markdown':
         specifier: ^0.2.1
         version: 0.2.1

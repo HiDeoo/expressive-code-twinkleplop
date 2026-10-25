@@ -19,6 +19,8 @@
   "devDependencies": {
     "@expressive-code/core": "^0.44.2",
     "@twinkleplop/core": "^0.3.1",
+    "@twinkleplop/css": "^0.1.7",
+    "@twinkleplop/html": "^0.1.7",
     "@twinkleplop/markdown": "^0.2.1",
     "@twinkleplop/tsx": "^0.1.7",
     "@twinkleplop/yaml": "^0.1.7",
@@ -30,12 +32,20 @@
   "peerDependencies": {
     "@expressive-code/core": ">=0.44.0",
     "@twinkleplop/core": "^0.3.1",
+    "@twinkleplop/css": "^0.1.7",
+    "@twinkleplop/html": "^0.1.7",
     "@twinkleplop/markdown": "^0.2.1",
     "@twinkleplop/tsx": "^0.1.7",
     "@twinkleplop/yaml": "^0.1.7"
   },
   "peerDependenciesMeta": {
     "@twinkleplop/core": {
+      "optional": true
+    },
+    "@twinkleplop/css": {
+      "optional": true
+    },
+    "@twinkleplop/html": {
       "optional": true
     },
     "@twinkleplop/markdown": {

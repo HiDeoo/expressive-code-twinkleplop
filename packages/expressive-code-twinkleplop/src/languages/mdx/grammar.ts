@@ -14,6 +14,8 @@ import { define_grammar, type GrammarRule, type GrammarState } from '@twinkleplo
 import * as tokenTypes from '@twinkleplop/core/tokens'
 import { raw_grammar as markdownGrammar } from '@twinkleplop/markdown'
 
+import { getExpressionStates } from '../../libs/expressions'
+
 // Token types specific to MDX.
 export const MdxTokenTypes = {
   component: 'mdx_component',
@@ -36,21 +38,6 @@ const mdxInlineRules: GrammarRule[] = [
   match('{', tokenTypes.expression, enter('expression_body')),
   // MDX JSX tags (overrides Markdown autolinks).
   on('<', enter('jsx_probe')),
-]
-
-// MDX expression bodies only use single character rules so that they merge into a single token embedded as a whole.
-const mdxExpressionRules: GrammarRule[] = [
-  // Nested opening brace.
-  match('{', MdxTokenTypes.rawExpression, enter('expression_brace')),
-  // String literals.
-  match('"', MdxTokenTypes.rawExpression, enter('expression_string_double')),
-  match("'", MdxTokenTypes.rawExpression, enter('expression_string_single')),
-  // Template literals.
-  match('`', MdxTokenTypes.rawExpression, enter('expression_template_literal')),
-  // Slash to differentiate between comments and other uses of `/`.
-  match('/', MdxTokenTypes.rawExpression, enter('expression_slash')),
-  // Otherwise, consume as part of the expression.
-  fallback({ token: MdxTokenTypes.rawExpression }),
 ]
 
 // Markdown `block_start` rules except for indented code blocks.
@@ -226,114 +213,7 @@ export const mdxRawGrammar = define_grammar({
       ],
     },
 
-    expression_body: {
-      rules: [
-        // The outermost closing brace of the expression.
-        match('}', tokenTypes.expression, leave()),
-        // Otherwise, handle the expression content.
-        ...mdxExpressionRules,
-      ],
-    },
-
-    expression_brace: {
-      rules: [
-        // Nested closing brace which is part of the expression content.
-        match('}', MdxTokenTypes.rawExpression, leave()),
-        // Otherwise, handle the expression content.
-        ...mdxExpressionRules,
-      ],
-    },
-
-    expression_string_double: {
-      rules: [
-        // Closing double quote of a string within an expression.
-        match('"', MdxTokenTypes.rawExpression, leave()),
-        // Escaped character within the string.
-        match('\\', MdxTokenTypes.rawExpression, enter('expression_escape')),
-        // Otherwise, consume as part of the expression.
-        fallback({ token: MdxTokenTypes.rawExpression }),
-      ],
-    },
-
-    expression_string_single: {
-      rules: [
-        // Closing single quote of a string within an expression.
-        match("'", MdxTokenTypes.rawExpression, leave()),
-        // Escaped character within the string.
-        match('\\', MdxTokenTypes.rawExpression, enter('expression_escape')),
-        // Otherwise, consume as part of the expression.
-        fallback({ token: MdxTokenTypes.rawExpression }),
-      ],
-    },
-
-    expression_template_literal: {
-      rules: [
-        // Closing backtick of a template literal within an expression.
-        match('`', MdxTokenTypes.rawExpression, leave()),
-        // Escaped character within the template literal.
-        match('\\', MdxTokenTypes.rawExpression, enter('expression_escape')),
-        // Possible start of a template substitution.
-        match('$', MdxTokenTypes.rawExpression, enter('expression_template_dollar')),
-        // Otherwise, consume as part of the expression.
-        fallback({ token: MdxTokenTypes.rawExpression }),
-      ],
-    },
-
-    expression_template_dollar: {
-      rules: [
-        // A substitution within a template literal.
-        match('{', MdxTokenTypes.rawExpression, goto('expression_brace')),
-        // Otherwise, treat the `$` as text.
-        fallback(leave()),
-      ],
-    },
-
-    expression_escape: {
-      rules: [
-        // Escaped characters are text, e.g. the quote in `'Don\'t'` does not end the string.
-        match(['"', "'", '`', '\\', '$'], MdxTokenTypes.rawExpression, leave()),
-        // Otherwise, go back to the string.
-        fallback(leave()),
-      ],
-    },
-
-    expression_slash: {
-      rules: [
-        // Start of a block comment.
-        match('*', MdxTokenTypes.rawExpression, goto('expression_block_comment')),
-        // Start of a line comment.
-        match('/', MdxTokenTypes.rawExpression, goto('expression_line_comment')),
-        // Otherwise, go back to the expression.
-        fallback(leave()),
-      ],
-    },
-
-    expression_block_comment: {
-      rules: [
-        // Possible end of the block comment.
-        match('*', MdxTokenTypes.rawExpression, goto('expression_block_comment_star')),
-        // Otherwise, continue consuming as part of the block comment.
-        fallback({ token: MdxTokenTypes.rawExpression }),
-      ],
-    },
-
-    expression_block_comment_star: {
-      rules: [
-        // End of the block comment.
-        match('/', MdxTokenTypes.rawExpression, leave()),
-        // Otherwise, continue processing as part of the block comment.
-        fallback(goto('expression_block_comment')),
-      ],
-    },
-
-    expression_line_comment: {
-      rules: [
-        // End of the line comment.
-        match('\n', MdxTokenTypes.rawExpression, leave()),
-        // Otherwise, consume as part of the line comment.
-        fallback({ token: MdxTokenTypes.rawExpression }),
-      ],
-    },
+    ...getExpressionStates(MdxTokenTypes.rawExpression),
   },
 })
 

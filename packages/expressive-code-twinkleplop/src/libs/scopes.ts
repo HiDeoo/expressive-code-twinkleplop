@@ -1,5 +1,6 @@
 import type * as tokenTypes from '@twinkleplop/core/tokens'
 
+import type { AstroTokenType } from '../languages/astro/grammar'
 import type { MdxTokenType } from '../languages/mdx/grammar'
 
 /**
@@ -146,6 +147,11 @@ const tokenScopes: Record<TokenType, string | undefined> = {
   tag: 'storage.type.tag-handle',
   null: 'constant.language.null',
 
+  // astro
+  astro_component: 'support.class.component.astro',
+  raw_astro_expression: undefined,
+  raw_astro_frontmatter: undefined,
+
   // mdx
   mdx_component: 'support.class.component.jsx',
   raw_mdx_esm: undefined,
@@ -160,4 +166,4 @@ function isTokenType(type: string): type is TokenType {
   return Object.hasOwn(tokenScopes, type)
 }
 
-type TokenType = (typeof tokenTypes)[keyof typeof tokenTypes] | MdxTokenType
+type TokenType = (typeof tokenTypes)[keyof typeof tokenTypes] | AstroTokenType | MdxTokenType
