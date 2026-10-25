@@ -5,6 +5,7 @@ import type * as tokenTypes from '@twinkleplop/core/tokens'
  * Tokens mapped to `undefined` are not colored.
  *
  * Each scope was picked to match as much as possible the colors Expressive Code uses with Shiki, mostly by using the
+ * {@link https://twinkleplop.pngwn.at/explore/ | Twinkleplop inspector}, the
  * {@link https://youngspe.dev/textmate-grammar-playground/ | TmLanguage and TmTheme playground} and the "Developer:
  * Inspect Editor Tokens and Scopes" command in Visual Studio Code.
  *
