@@ -10,13 +10,13 @@ const cases: StyleCase[] = [
       { scope: 'entity.name.function', settings: { foreground: '#aaaaaa' } },
       { scope: 'entity', settings: { foreground: '#bbbbbb' } },
     ],
-    scope: 'entity.name.function.decorator',
+    scopes: ['entity.name.function.decorator'],
     expected: { color: '#aaaaaa', fontStyle: undefined },
   },
   {
     name: 'does not match partial selectors',
     rules: [{ scope: 'entity.name.func', settings: { foreground: '#aaaaaa' } }],
-    scope: 'entity.name.function',
+    scopes: ['entity.name.function'],
     expected: { color: undefined, fontStyle: undefined },
   },
   {
@@ -25,21 +25,45 @@ const cases: StyleCase[] = [
       { scope: 'comment', settings: { foreground: '#aaaaaa' } },
       { scope: 'comment.line', settings: { fontStyle: 'italic' } },
     ],
-    scope: 'comment.line',
+    scopes: ['comment.line'],
     expected: { color: '#aaaaaa', fontStyle: 'italic' },
   },
   {
     name: 'does not style scopes without a matching selector',
     rules: [{ scope: 'keyword', settings: { foreground: '#aaaaaa' } }],
-    scope: 'string',
+    scopes: ['string'],
     expected: { color: undefined, fontStyle: undefined },
+  },
+  {
+    name: 'preserves the outer font style when an inner scope only defines a color',
+    rules: [
+      { scope: 'markup.bold', settings: { fontStyle: 'bold' } },
+      { scope: 'entity.name.tag', settings: { foreground: '#aaaaaa' } },
+    ],
+    scopes: ['markup.bold.markdown', 'entity.name.tag'],
+    expected: { color: '#aaaaaa', fontStyle: 'bold' },
+  },
+  {
+    name: 'overrides the outer font style with the inner one',
+    rules: [
+      { scope: 'markup.bold', settings: { fontStyle: 'bold' } },
+      { scope: 'markup.italic', settings: { fontStyle: 'italic' } },
+    ],
+    scopes: ['markup.bold.markdown', 'markup.italic.markdown'],
+    expected: { color: undefined, fontStyle: 'italic' },
+  },
+  {
+    name: 'preserves the outer color when an inner scope is not styled',
+    rules: [{ scope: 'markup.bold', settings: { foreground: '#aaaaaa' } }],
+    scopes: ['markup.bold.markdown', 'variable.other.readwrite'],
+    expected: { color: '#aaaaaa', fontStyle: undefined },
   },
 ]
 
-test.for(cases)('$name', ({ expected, rules, scope }) => {
+test.for(cases)('$name', ({ expected, rules, scopes }) => {
   const theme = new ExpressiveCodeTheme({ tokenColors: rules })
 
-  expect(getTokenStyle(theme, scope)).toEqual(expected)
+  expect(getTokenStyle(theme, scopes)).toEqual(expected)
 })
 
 interface StyleCase {
@@ -48,6 +72,6 @@ interface StyleCase {
     scope: string
     settings: { foreground?: string; fontStyle?: string }
   }[]
-  scope: string
+  scopes: string[]
   expected: ReturnType<typeof getTokenStyle>
 }

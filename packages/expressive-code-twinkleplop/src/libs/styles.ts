@@ -3,6 +3,26 @@ import type { ExpressiveCodeTheme } from '@expressive-code/core'
 const tokenStyleCache = new WeakMap<ExpressiveCodeTheme, Map<string, TokenStyle>>()
 
 /**
+ * Resolves the token style for the given theme and TextMate scopes from outermost to innermost.
+ *
+ * Like Visual Studio Code, an inner scope only overrides the style of its parent scopes when the theme defines it.
+ *
+ * @see https://github.com/microsoft/vscode-textmate/blob/392b23a4a5ecda7fe4f481d721f113695b14159b/src/encodedTokenAttributes.ts#L157-L162
+ */
+export function getTokenStyle(theme: ExpressiveCodeTheme, scopes: string[]): TokenStyle {
+  let color: string | undefined
+  let fontStyle: string | undefined
+
+  for (const scope of scopes) {
+    const style = getScopeStyle(theme, scope)
+    color = style.color ?? color
+    fontStyle = style.fontStyle ?? fontStyle
+  }
+
+  return { color, fontStyle }
+}
+
+/**
  * A simplified version of Visual Studio Code `ThemeTrieElement.match()` that resolves the color and font style a theme
  * assigns to a TextMate scope.
  *
@@ -11,7 +31,7 @@ const tokenStyleCache = new WeakMap<ExpressiveCodeTheme, Map<string, TokenStyle>
  *
  * @see https://github.com/microsoft/vscode-textmate/blob/392b23a4a5ecda7fe4f481d721f113695b14159b/src/theme.ts#L665-L686
  */
-export function getTokenStyle(theme: ExpressiveCodeTheme, scope: string) {
+function getScopeStyle(theme: ExpressiveCodeTheme, scope: string) {
   let themeCache = tokenStyleCache.get(theme)
   if (!themeCache) {
     themeCache = new Map()

@@ -2,7 +2,7 @@ import { definePlugin, InlineStyleAnnotation, type ExpressiveCodePlugin } from '
 
 import { UserError, warnUser } from './libs/errors'
 import { isTokenizeResult, resolveDefaultLanguage, resolveLanguages, type Language } from './libs/languages'
-import { getTokenScope } from './libs/scopes'
+import { getTokenScopes } from './libs/scopes'
 import { getTokenStyle } from './libs/styles'
 
 // Languages used for plain text which are never highlighted or reported as unknown.
@@ -56,6 +56,7 @@ export function pluginTwinkleplop(options: PluginTwinkleplopOptions): Expressive
         }
 
         const { tokens, token_types } = result
+        const tokenTypeScopes = token_types.map((type) => getTokenScopes(type))
 
         // Offset of the current line within the code block.
         let lineStart = 0
@@ -79,12 +80,11 @@ export function pluginTwinkleplop(options: PluginTwinkleplopOptions): Expressive
             // Skip empty token ranges, e.g. a token ending with a line break or an empty line inside a block comment.
             if (columnEnd <= columnStart) continue
 
-            const type = token_types[typeIndex]
-            const scope = type ? getTokenScope(type) : undefined
-            if (!scope) continue
+            const scopes = tokenTypeScopes[typeIndex]
+            if (!scopes || scopes.length === 0) continue
 
             for (const [styleVariantIndex, { theme }] of styleVariants.entries()) {
-              const { color, fontStyle } = getTokenStyle(theme, scope)
+              const { color, fontStyle } = getTokenStyle(theme, scopes)
 
               line.addAnnotation(
                 new InlineStyleAnnotation({

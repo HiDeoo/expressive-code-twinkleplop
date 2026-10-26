@@ -50,6 +50,12 @@ const cases: HighlightCase[] = [
       [[0, 1]],
     ],
   },
+  {
+    name: 'a token with a compound type',
+    code: 'a b',
+    tokens: [['bold keyword', 2, 3]],
+    ranges: [[[2, 3]]],
+  },
 ]
 
 test.for(cases)('highlights $name', async ({ code, ranges, tokens }) => {

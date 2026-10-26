@@ -158,8 +158,16 @@ const tokenScopes: Record<TokenType, string | undefined> = {
   raw_mdx_expression: undefined,
 }
 
-export function getTokenScope(type: string): string | undefined {
-  return isTokenType(type) ? tokenScopes[type] : undefined
+// Returns TextMate scopes for the given token type from outermost to innermost.
+export function getTokenScopes(type: string): string[] {
+  const scopes: string[] = []
+
+  for (const part of type.split(' ')) {
+    const scope = isTokenType(part) ? tokenScopes[part] : undefined
+    if (scope) scopes.push(scope)
+  }
+
+  return scopes
 }
 
 function isTokenType(type: string): type is TokenType {
