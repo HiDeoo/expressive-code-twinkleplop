@@ -231,10 +231,7 @@ importers:
         version: 0.35.5(@types/node@24.19.2)
 
   packages/expressive-code-twinkleplop:
-    devDependencies:
-      '@expressive-code/core':
-        specifier: ^0.44.2
-        version: 0.44.2
+    dependencies:
       '@twinkleplop/core':
         specifier: ^0.3.1
         version: 0.3.1
@@ -253,6 +250,10 @@ importers:
       '@twinkleplop/yaml':
         specifier: ^0.1.7
         version: 0.1.7
+    devDependencies:
+      '@expressive-code/core':
+        specifier: ^0.44.2
+        version: 0.44.2
       '@types/node':
         specifier: ^24.19.2
         version: 24.19.2

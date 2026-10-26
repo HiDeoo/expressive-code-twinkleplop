@@ -16,21 +16,7 @@
     "lint": "eslint . --cache --max-warnings=0",
     "prepack": "pnpm build"
   },
-  "devDependencies": {
-    "@expressive-code/core": "^0.44.2",
-    "@twinkleplop/core": "^0.3.1",
-    "@twinkleplop/css": "^0.1.7",
-    "@twinkleplop/html": "^0.1.7",
-    "@twinkleplop/markdown": "^0.2.1",
-    "@twinkleplop/tsx": "^0.1.7",
-    "@twinkleplop/yaml": "^0.1.7",
-    "@types/node": "^24.19.2",
-    "publint": "^0.3.24",
-    "tsdown": "^0.23.0",
-    "vitest": "^5.0.5"
-  },
-  "peerDependencies": {
-    "@expressive-code/core": ">=0.44.0",
+  "dependencies": {
     "@twinkleplop/core": "^0.3.1",
     "@twinkleplop/css": "^0.1.7",
     "@twinkleplop/html": "^0.1.7",
@@ -38,25 +24,15 @@
     "@twinkleplop/tsx": "^0.1.7",
     "@twinkleplop/yaml": "^0.1.7"
   },
-  "peerDependenciesMeta": {
-    "@twinkleplop/core": {
-      "optional": true
-    },
-    "@twinkleplop/css": {
-      "optional": true
-    },
-    "@twinkleplop/html": {
-      "optional": true
-    },
-    "@twinkleplop/markdown": {
-      "optional": true
-    },
-    "@twinkleplop/tsx": {
-      "optional": true
-    },
-    "@twinkleplop/yaml": {
-      "optional": true
-    }
+  "devDependencies": {
+    "@expressive-code/core": "^0.44.2",
+    "@types/node": "^24.19.2",
+    "publint": "^0.3.24",
+    "tsdown": "^0.23.0",
+    "vitest": "^5.0.5"
+  },
+  "peerDependencies": {
+    "@expressive-code/core": ">=0.44.0"
   },
   "publishConfig": {
     "access": "public",
