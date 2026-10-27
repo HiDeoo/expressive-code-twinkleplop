@@ -1,6 +1,6 @@
 {
   "name": "expressive-code-twinkleplop",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "license": "MIT",
   "description": "Expressive Code plugin to use Twinkleplop as a syntax highlighter: all the features you already use, at the speed of Twinkleplop.",
   "author": "HiDeoo <github@hideoo.dev> (https://hideoo.dev)",
