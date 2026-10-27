@@ -21,7 +21,6 @@ export function tokenize(options?: LanguageOptions): LanguageFn {
   const script = tsx()
 
   const pipeline: LanguagePipeline = [
-    ...promoteComponentTagNames(AstroTokenTypes.component),
     always(
       embed_grammars({
         [AstroTokenTypes.rawExpression]: script,
@@ -31,6 +30,7 @@ export function tokenize(options?: LanguageOptions): LanguageFn {
       }),
       'embed',
     ),
+    ...promoteComponentTagNames(AstroTokenTypes.component),
   ]
 
   return create_language(grammar, pipeline)(options)

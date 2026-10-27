@@ -6,7 +6,7 @@ import { describe, expect, test } from 'vitest'
 import { tokenize } from '../src/languages/astro'
 import { astroRawGrammar } from '../src/languages/astro/grammar'
 
-import { getExpressionTokens, getTokens, type TokenizeCase } from './utils'
+import { getExpressionTokens, getTokens, type Token, type TokenizeCase } from './utils'
 
 const astro = tokenize()
 const script = tsx()
@@ -102,6 +102,13 @@ describe('template', () => {
         ['astro_component', 'self'],
         ['punctuation', '/>'],
       ],
+    },
+    {
+      name: 'a component in an expression',
+      code: '{items.map((item) => <Card {item} />)}',
+      tokens: getExpressionTokens('items.map((item) => <Card {item} />)').map(([type, text]): Token =>
+        type === 'tag_name' && text === 'Card' ? ['astro_component', text] : [type, text],
+      ),
     },
     {
       name: 'a fragment',

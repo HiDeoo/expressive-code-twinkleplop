@@ -23,7 +23,6 @@ export function tokenize(options?: MdxLanguageOptions): LanguageFn {
   const script = tsx()
 
   const pipeline: LanguagePipeline = [
-    ...promoteComponentTagNames(MdxTokenTypes.component),
     // We embed with TSX before Markdown reclassifiers to prevent raw MDX tokens from being reclassified, e.g. a raw
     // MDX expression inside bold text which would no longer be embedded properly.
     always(
@@ -33,6 +32,7 @@ export function tokenize(options?: MdxLanguageOptions): LanguageFn {
       }),
       'embed',
     ),
+    ...promoteComponentTagNames(MdxTokenTypes.component),
     ...markdownReclassifiers,
     // The Markdown grammar only supports YAML frontmatter so we can always embed it.
     always(embed_grammars({ raw_front_matter: yaml() }), 'embed'),
