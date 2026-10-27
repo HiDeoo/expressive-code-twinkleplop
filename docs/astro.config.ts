@@ -1,0 +1,60 @@
+import starlight from '@astrojs/starlight'
+import { defineConfig } from 'astro/config'
+
+const site =
+  (process.env['CONTEXT'] === 'production' ? process.env['URL'] : process.env['DEPLOY_PRIME_URL']) ??
+  'https://expressive-code-twinkleplop.netlify.app/'
+
+export default defineConfig({
+  integrations: [
+    starlight({
+      description:
+        'Expressive Code plugin to use Twinkleplop as a syntax highlighter: all the features you already use, at the speed of Twinkleplop.',
+      editLink: {
+        baseUrl: 'https://github.com/HiDeoo/expressive-code-twinkleplop/edit/main/docs/',
+      },
+      head: [
+        {
+          tag: 'meta',
+          attrs: {
+            property: 'og:image',
+            content: new URL('og.jpg', site).href,
+          },
+        },
+        {
+          tag: 'meta',
+          attrs: {
+            property: 'og:image:alt',
+            content:
+              'Expressive Code plugin to use Twinkleplop as a syntax highlighter: all the features you already use, at the speed of Twinkleplop.',
+          },
+        },
+      ],
+      sidebar: [
+        {
+          label: 'Start Here',
+          items: [{ slug: 'getting-started' }, { slug: 'configuration' }],
+        },
+        {
+          label: 'Guides',
+          items: [{ slug: 'guides/languages' }, { slug: 'guides/compatibility' }],
+        },
+      ],
+      social: [
+        {
+          href: 'https://bsky.app/profile/hideoo.dev',
+          icon: 'blueSky',
+          label: 'Bluesky',
+        },
+        {
+          href: 'https://github.com/HiDeoo/expressive-code-twinkleplop',
+          icon: 'github',
+          label: 'GitHub',
+        },
+      ],
+      title: 'Expressive Code Twinkleplop',
+    }),
+  ],
+  site,
+  trailingSlash: 'always',
+})

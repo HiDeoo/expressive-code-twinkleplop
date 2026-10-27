@@ -1,0 +1,12 @@
+<link rel="stylesheet" href="/posts.css" />
+
+<article class="post">
+  <h2><a href="/posts/hello-world/">Hello world</a></h2>
+  <time datetime="2026-10-27">October 27, 2026</time>
+  <p>My very <strong>first</strong> post.</p>
+</article>
+
+<script type="module">
+  const time = document.querySelector('time')
+  time.textContent = new Date(time.dateTime).toLocaleDateString()
+</script>

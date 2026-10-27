@@ -1,0 +1,49 @@
+{
+  "name": "expressive-code-twinkleplop-docs",
+  "version": "0.0.1",
+  "license": "MIT",
+  "description": "Expressive Code plugin to use Twinkleplop as a syntax highlighter: all the features you already use, at the speed of Twinkleplop.",
+  "author": "HiDeoo <github@hideoo.dev> (https://hideoo.dev)",
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "pnpm --filter expressive-code-twinkleplop build && astro build",
+    "preview": "astro preview",
+    "astro": "astro",
+    "lint": "eslint . --cache --max-warnings=0"
+  },
+  "dependencies": {
+    "@astrojs/starlight": "^0.42.6",
+    "@hideoo/starlight-plugins-docs-components": "^0.5.0",
+    "@twinkleplop/bash": "^0.1.7",
+    "@twinkleplop/css": "^0.1.7",
+    "@twinkleplop/html": "^0.1.7",
+    "@twinkleplop/javascript": "^0.1.7",
+    "@twinkleplop/json": "^0.1.7",
+    "@twinkleplop/markdown": "^0.2.1",
+    "@twinkleplop/rust": "^0.1.7",
+    "@twinkleplop/typescript": "^0.1.7",
+    "@twinkleplop/yaml": "^0.1.7",
+    "astro": "^7.4.0",
+    "expressive-code-twinkleplop": "workspace:*",
+    "sharp": "^0.35.5"
+  },
+  "private": true,
+  "sideEffects": false,
+  "keywords": [
+    "expressive-code",
+    "twinkleplop",
+    "plugin",
+    "syntax-highlighting",
+    "code-blocks",
+    "withastro"
+  ],
+  "homepage": "https://github.com/HiDeoo/expressive-code-twinkleplop",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/HiDeoo/expressive-code-twinkleplop.git",
+    "directory": "docs"
+  },
+  "bugs": "https://github.com/HiDeoo/expressive-code-twinkleplop/issues"
+}

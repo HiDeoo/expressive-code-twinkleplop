@@ -1,0 +1,55 @@
+{
+  "name": "expressive-code-twinkleplop-monorepo",
+  "version": "0.0.1",
+  "license": "MIT",
+  "description": "Expressive Code plugin to use Twinkleplop as a syntax highlighter: all the features you already use, at the speed of Twinkleplop.",
+  "author": "HiDeoo <github@hideoo.dev> (https://hideoo.dev)",
+  "type": "module",
+  "scripts": {
+    "test": "pnpm --stream -r test",
+    "lint": "astro check --noSync && pnpm -r lint",
+    "format": "prettier -w --cache --ignore-unknown .",
+    "version": "pnpm changeset version && pnpm i --no-frozen-lockfile"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.10",
+    "@changesets/changelog-github": "^1.0.1",
+    "@changesets/cli": "^3.0.3",
+    "@hideoo/eslint-config": "^5.2.1",
+    "@hideoo/prettier-config": "^2.0.2",
+    "@hideoo/tsconfig": "^2.0.4",
+    "astro": "^7.4.0",
+    "eslint": "^10.13.0",
+    "prettier": "^3.9.10",
+    "prettier-plugin-astro": "^1.1.1",
+    "typescript": "^6.0.3"
+  },
+  "devEngines": {
+    "runtime": {
+      "name": "node",
+      "version": "24.22.1",
+      "onFail": "download"
+    },
+    "packageManager": {
+      "name": "pnpm",
+      "version": "12.14.0",
+      "onFail": "download"
+    }
+  },
+  "private": true,
+  "sideEffects": false,
+  "keywords": [
+    "expressive-code",
+    "twinkleplop",
+    "plugin",
+    "syntax-highlighting",
+    "code-blocks",
+    "withastro"
+  ],
+  "homepage": "https://github.com/HiDeoo/expressive-code-twinkleplop",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/HiDeoo/expressive-code-twinkleplop.git"
+  },
+  "bugs": "https://github.com/HiDeoo/expressive-code-twinkleplop/issues"
+}

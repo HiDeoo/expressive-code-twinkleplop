@@ -1,0 +1,31 @@
+---
+title: Expressive Code compatibility
+description: Learn which Expressive Code features work with the Twinkleplop plugin.
+---
+
+The Expressive Code Twinkleplop plugin replaces Shiki with Twinkleplop to highlight the syntax of code blocks.
+All other Expressive Code features keep working, so existing code blocks do not need any changes.
+
+## Expressive Code features
+
+[Themes](https://expressive-code.com/guides/themes/), [frames](https://expressive-code.com/key-features/frames/), [text markers](https://expressive-code.com/key-features/text-markers/), [word wrap](https://expressive-code.com/key-features/word-wrap/), and plugins work the same way with the Twinkleplop plugin.
+
+The plugin aims to match the colors Shiki uses with the same theme as closely as possible, but some token colors may differ.
+
+## Shiki options
+
+The [`shiki`](https://expressive-code.com/key-features/syntax-highlighting/#configuration) option of Expressive Code configures Shiki, which is disabled with `shiki: false` when using the Expressive Code Twinkleplop plugin.
+Use the following equivalents instead:
+
+- **[`shiki.bundledLangs`](https://expressive-code.com/key-features/syntax-highlighting/#bundledlangs)**: Install and configure only the [Twinkleplop languages](/guides/languages/#twinkleplop-languages) you need.
+- **[`shiki.langs`](https://expressive-code.com/key-features/syntax-highlighting/#langs)**: Use the [`languages`](/configuration/#languages) option.
+- **[`shiki.langAlias`](https://expressive-code.com/key-features/syntax-highlighting/#langalias)**: Use [aliases](/guides/languages/#aliases).
+- **[`shiki.injectLangsIntoNestedCodeBlocks`](https://expressive-code.com/key-features/syntax-highlighting/#injectlangsintonestedcodeblocks)**: Use [embedding languages](/guides/languages/#embedding-languages).
+
+Other Shiki options, like [`shiki.transformers`](https://expressive-code.com/key-features/syntax-highlighting/#transformers), are not supported by the Expressive Code Twinkleplop plugin.
+
+## Twinkleplop features
+
+The Expressive Code Twinkleplop plugin only uses Twinkleplop to find tokens to highlight within code blocks.
+Features described in the Twinkleplop documentation, like themes, render options, or directives, are not used.
+[Directives](https://twinkleplop.pngwn.at/docs/directives) written in code comments are rendered as regular comments.

@@ -1,0 +1,133 @@
+---
+import { Code, Icon } from '@astrojs/starlight/components'
+
+import type { Snippet } from '../snippets'
+
+interface Props {
+  snippets: Snippet[]
+}
+
+const { snippets } = Astro.props
+
+const defaultLang = 'ts'
+---
+
+<snippet-picker>
+  <label class="not-content snippet-picker-select">
+    <span class="sr-only">Language</span>
+    <select>
+      {snippets.map(({ label, lang }) => (
+        <option selected={lang === defaultLang} value={lang}>
+          {label}
+        </option>
+      ))}
+    </select>
+    <Icon name="down-caret" class="snippet-picker-select-caret" />
+  </label>
+  {snippets.map(({ code, lang, title }) => (
+    <div data-lang={lang} hidden={lang !== defaultLang}>
+      <Code {code} frame="code" {lang} {title} />
+    </div>
+  ))}
+</snippet-picker>
+
+<script>
+  customElements.define(
+    'snippet-picker',
+    class SnippetPicker extends HTMLElement {
+      #panels: HTMLDivElement[]
+
+      constructor() {
+        super()
+
+        this.#panels = [...this.querySelectorAll<HTMLDivElement>(':scope > [data-lang]')]
+
+        const select = this.querySelector<HTMLSelectElement>(':scope > .snippet-picker-select > select')
+        if (!select) return
+
+        this.#showPanel(select.value)
+
+        select.addEventListener('change', () => {
+          this.#showPanel(select.value)
+        })
+      }
+
+      #showPanel(lang: string) {
+        for (const panel of this.#panels) {
+          panel.hidden = panel.dataset['lang'] !== lang
+        }
+      }
+    },
+  )
+</script>
+
+<style>
+  snippet-picker {
+    --snippet-picker-header-height: 3rem;
+
+    display: block;
+    position: relative;
+  }
+
+  @media (hover: hover) {
+    snippet-picker:hover :global(.copy button:not(:hover)) {
+      opacity: 0.75;
+    }
+  }
+
+  snippet-picker > [data-lang] {
+    margin-top: 0;
+  }
+
+  snippet-picker :global(.frame.has-title) {
+    --button-spacing: calc(var(--snippet-picker-header-height) + 0.4rem);
+  }
+
+  snippet-picker :global(.frame.has-title .header) {
+    min-height: var(--snippet-picker-header-height);
+  }
+
+  snippet-picker :global(.frame.has-title .title) {
+    align-items: center;
+    display: flex;
+  }
+
+  .snippet-picker-select {
+    align-items: center;
+    color: var(--sl-color-gray-2);
+    display: flex;
+    font-size: var(--ec-uiFontSize);
+    height: var(--snippet-picker-header-height);
+    inset-block-start: 0;
+    inset-inline-end: calc(var(--ec-brdWd) + var(--ec-uiPadInl) / 2);
+    position: absolute;
+    z-index: 2;
+  }
+
+  .snippet-picker-select:hover {
+    color: var(--sl-color-gray-1);
+  }
+
+  .snippet-picker-select select {
+    appearance: none;
+    background-color: var(--ec-frm-edActTabBg);
+    border: var(--ec-brdWd) solid var(--ec-frm-edTabBarBrdCol);
+    color: inherit;
+    cursor: pointer;
+    padding-block: 0.0625rem;
+    padding-inline: 0.5rem 1.75rem;
+  }
+
+  .snippet-picker-select select:hover {
+    border-color: var(--sl-color-gray-3);
+  }
+
+  .snippet-picker-select-caret {
+    font-size: 1.125rem;
+    inset-inline-end: 0.375rem;
+    pointer-events: none;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+</style>

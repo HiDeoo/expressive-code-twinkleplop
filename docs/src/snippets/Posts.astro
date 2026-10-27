@@ -1,0 +1,20 @@
+---
+import Card from '../components/Card.astro'
+import { getTitles } from '../posts'
+
+const titles = await getTitles(3)
+---
+
+<section class="latest">
+  <h2>Latest posts</h2>
+  {titles.map((title) => (
+    <Card {title} />
+  ))}
+</section>
+
+<style>
+  .latest {
+    display: grid;
+    gap: 1rem;
+  }
+</style>

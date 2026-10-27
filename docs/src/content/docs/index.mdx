@@ -1,0 +1,30 @@
+---
+title: Expressive Code Twinkleplop
+description: 'Expressive Code plugin to use Twinkleplop as a syntax highlighter: all the features you already use, at the speed of Twinkleplop.'
+template: splash
+head:
+  - tag: title
+    content: Expressive Code Twinkleplop
+  - tag: style
+    content: |
+      .hero-html {
+        --size: 12rem;
+        font-size: var(--size);
+        justify-content: center;
+        line-height: var(--size);
+      }
+editUrl: false
+hero:
+  tagline: 'Expressive Code plugin to use Twinkleplop as a syntax highlighter: all the features you already use, at the speed of Twinkleplop.'
+  image:
+    html: '💫'
+  actions:
+    - text: Get Started
+      link: /getting-started/
+      icon: rocket
+---
+
+import SnippetPicker from '../../components/SnippetPicker.astro'
+import { Snippets } from '../../snippets'
+
+<SnippetPicker snippets={Snippets} />
