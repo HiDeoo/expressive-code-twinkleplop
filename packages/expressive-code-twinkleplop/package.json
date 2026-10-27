@@ -49,7 +49,12 @@
     "dist"
   ],
   "keywords": [
-    "TODO(HiDeoo)"
+    "expressive-code",
+    "twinkleplop",
+    "plugin",
+    "syntax-highlighting",
+    "code-blocks",
+    "withastro"
   ],
   "homepage": "https://github.com/HiDeoo/expressive-code-twinkleplop",
   "repository": {
