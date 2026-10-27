@@ -30,19 +30,16 @@ export default defineConfig({
           },
         },
       ],
-      // sidebar: [
-      //   {
-      //     label: "Start Here",
-      //     items: [
-      //       { label: "Getting Started", link: "/getting-started/" },
-      //       { label: "Usage", link: "/usage/" },
-      //     ],
-      //   },
-      //   {
-      //     label: "Resources",
-      //     items: [{ label: "Plugins and Tools", slug: "resources/starlight" }],
-      //   },
-      // ],
+      sidebar: [
+        {
+          label: 'Start Here',
+          items: [{ slug: 'getting-started' }, { slug: 'configuration' }],
+        },
+        {
+          label: 'Guides',
+          items: [{ slug: 'guides/languages' }, { slug: 'guides/compatibility' }],
+        },
+      ],
       social: [
         {
           href: 'https://bsky.app/profile/hideoo.dev',

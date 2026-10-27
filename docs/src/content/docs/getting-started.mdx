@@ -1,0 +1,108 @@
+---
+title: Getting Started
+description: Learn how to highlight Expressive Code code blocks using Twinkleplop.
+---
+
+An early-stage [Expressive Code](https://expressive-code.com/) plugin to highlight code blocks using [Twinkleplop](https://twinkleplop.pngwn.at/).
+All code blocks in this documentation are highlighted using Twinkleplop.
+
+## How it works
+
+By default, Expressive Code uses [Shiki](https://shiki.style/) to highlight code blocks.
+This plugin replaces Shiki with Twinkleplop for this specific step: Twinkleplop finds tokens to highlight within code blocks and Expressive Code still handles everything else like themes, text markers, and [other features](/guides/compatibility/).
+
+Code blocks are still colored using [Expressive Code themes](https://expressive-code.com/guides/themes/) and the plugin aims to match the colors Shiki uses with the same theme as closely as possible, but some token colors may differ.
+
+## Installation
+
+import { Steps, Tabs, TabItem } from '@astrojs/starlight/components'
+import { PackageManagers } from '@hideoo/starlight-plugins-docs-components'
+
+<Steps>
+
+1. Install `expressive-code-twinkleplop` using your favorite package manager:
+
+   <PackageManagers pkg="expressive-code-twinkleplop" />
+
+2. Install the Twinkleplop language packages you need.
+
+   For example, the following command installs the TypeScript language package:
+
+   <PackageManagers pkg="@twinkleplop/typescript" />
+
+   To learn more about how to configure languages, check the ["Languages" guide](/guides/languages/).
+
+3. Add the plugin to your Expressive Code configuration:
+
+   <Tabs syncKey="ec-config">
+
+   <TabItem label="Astro">
+
+   ```js title="astro.config.mjs" ins={3-4,9-12}
+   import { defineConfig } from 'astro/config'
+   import astroExpressiveCode from 'astro-expressive-code'
+   import { pluginTwinkleplop } from 'expressive-code-twinkleplop'
+   import { tokenize as typescript } from '@twinkleplop/typescript'
+
+   export default defineConfig({
+     integrations: [
+       astroExpressiveCode({
+         // Disable Shiki.
+         shiki: false,
+         // Add the Twinkleplop plugin with TypeScript highlighting.
+         plugins: [pluginTwinkleplop({ languages: { ts: typescript() } })],
+       }),
+     ],
+   })
+   ```
+
+   </TabItem>
+
+   <TabItem label="Starlight">
+
+   ```js title="astro.config.mjs" ins={3-4,11-14}
+   import { defineConfig } from 'astro/config'
+   import starlight from '@astrojs/starlight'
+   import { pluginTwinkleplop } from 'expressive-code-twinkleplop'
+   import { tokenize as typescript } from '@twinkleplop/typescript'
+
+   export default defineConfig({
+     integrations: [
+       starlight({
+         title: 'My Starlight site',
+         expressiveCode: {
+           // Disable Shiki.
+           shiki: false,
+           // Add the Twinkleplop plugin with TypeScript highlighting.
+           plugins: [pluginTwinkleplop({ languages: { ts: typescript() } })],
+         },
+       }),
+     ],
+   })
+   ```
+
+   </TabItem>
+
+   <TabItem label="EC configuration file">
+
+   ```js title="ec.config.mjs" ins={1-2,5-8}
+   import { pluginTwinkleplop } from 'expressive-code-twinkleplop'
+   import { tokenize as typescript } from '@twinkleplop/typescript'
+
+   export default {
+     // Disable Shiki.
+     shiki: false,
+     // Add the Twinkleplop plugin with TypeScript highlighting.
+     plugins: [pluginTwinkleplop({ languages: { ts: typescript() } })],
+   }
+   ```
+
+   </TabItem>
+
+   </Tabs>
+
+4. Start your development server to preview your code blocks highlighted by Twinkleplop.
+
+</Steps>
+
+The Expressive Code Twinkleplop plugin behavior can be tweaked using various [configuration options](/configuration/).

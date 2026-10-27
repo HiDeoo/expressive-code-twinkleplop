@@ -1,0 +1,205 @@
+---
+title: Languages
+description: Learn how to configure the languages highlighted by the Expressive Code Twinkleplop plugin.
+---
+
+import {
+  PackageManagers,
+  Preview,
+} from '@hideoo/starlight-plugins-docs-components'
+
+Unlike Shiki, Twinkleplop does not bundle any languages.
+Only code blocks using a language configured in the [`languages`](/configuration/#languages) option are highlighted.
+
+## Twinkleplop languages
+
+Twinkleplop languages are published as individual packages, e.g. `@twinkleplop/typescript` for TypeScript.
+Check the [list of available languages](https://twinkleplop.pngwn.at/docs/languages-ref#list) to find the ones you need.
+
+To highlight a language, install its package using your favorite package manager:
+
+<PackageManagers pkg="@twinkleplop/typescript" />
+
+Then, add it to the [`languages`](/configuration/#languages) option using the language identifier of your code blocks as key, and the result of calling the `tokenize` export of the package as value.
+
+The following example shows how to configure the TypeScript language with Twinkleplop:
+
+```js {1,5-6}
+import { tokenize as typescript } from '@twinkleplop/typescript'
+
+pluginTwinkleplop({
+  languages: {
+    // Configure the `ts` language identifier.
+    ts: typescript(),
+  },
+})
+```
+
+The `tokenize` function also accepts a [`fidelity` option](https://twinkleplop.pngwn.at/docs/fidelity) to choose the granularity of the highlighting.
+
+## Aliases
+
+The same language can be used in code blocks with different language identifiers, e.g. `ts` and `typescript`.
+To highlight all of them, configure the language once and use the identifier of the configured language as value for the other identifiers:
+
+```js {5-8} /(ts):/ /'ts'/
+import { tokenize as typescript } from '@twinkleplop/typescript'
+
+pluginTwinkleplop({
+  languages: {
+    // Configure the `ts` language identifier.
+    ts: typescript(),
+    // Alias the `typescript` language identifier to `ts`.
+    typescript: 'ts',
+  },
+})
+```
+
+## Embedding languages
+
+Some languages can contain code in other languages, e.g. code blocks in Markdown.
+To highlight these nested code blocks, such languages support a `languages` option to specify the available languages.
+
+To highlight nested code blocks with all configured languages, the Expressive Code Twinkleplop plugin supports an object with an `embed` function.
+This function receives all languages configured in the [`languages`](/configuration/#languages) option, including aliases, and can be used to configure embedded languages accordingly.
+
+```js {9-11}
+import { tokenize as markdown } from '@twinkleplop/markdown'
+import { tokenize as typescript } from '@twinkleplop/typescript'
+import { tokenize as yaml } from '@twinkleplop/yaml'
+
+pluginTwinkleplop({
+  languages: {
+    // Configure the `ts` language identifier.
+    ts: typescript(),
+    // Highlight code blocks nested in Markdown using all configured
+    // languages and frontmatter as YAML.
+    md: { embed: (languages) => markdown({ languages, front_matter: yaml() }) },
+  },
+})
+```
+
+With the configuration above, the TypeScript code block nested in the following Markdown code block is highlighted:
+
+<Preview>
+
+<Fragment slot="preview">
+
+````md
+# Example
+
+```ts
+const foo: string = 'bar'
+```
+````
+
+</Fragment>
+
+</Preview>
+
+## Additional languages
+
+The Expressive Code Twinkleplop plugin provides the following languages which are not yet available as Twinkleplop packages.
+
+### Astro
+
+Highlights [Astro](https://astro.build/) components, including their frontmatter, expressions, scripts, and styles.
+
+```js {1,5-6}
+import { tokenize as astro } from 'expressive-code-twinkleplop/languages/astro'
+
+pluginTwinkleplop({
+  languages: {
+    // Configure the `astro` language identifier.
+    astro: astro(),
+  },
+})
+```
+
+With the configuration above, the following Astro component is highlighted:
+
+<Preview>
+
+<Fragment slot="preview">
+
+```astro title="Card.astro"
+---
+import Icon from './Icon.astro'
+
+const { title } = Astro.props
+---
+
+<article class="card">
+  <Icon name="star" />
+  <h2>{title}</h2>
+  <slot />
+</article>
+
+<script>
+  console.log('Card rendered')
+</script>
+
+<style>
+  .card {
+    padding: 1rem;
+  }
+</style>
+```
+
+</Fragment>
+
+</Preview>
+
+### MDX
+
+Highlights [MDX](https://mdxjs.com/) documents, including their frontmatter, imports, exports, expressions, and components.
+
+```js {1,5-6}
+import { tokenize as mdx } from 'expressive-code-twinkleplop/languages/mdx'
+
+pluginTwinkleplop({
+  languages: {
+    // Configure the `mdx` language identifier.
+    mdx: mdx(),
+  },
+})
+```
+
+To also highlight code blocks nested in MDX documents, configure the MDX language as an [embedding language](#embedding-languages):
+
+```js {1,5-6}
+import { tokenize as mdx } from 'expressive-code-twinkleplop/languages/mdx'
+
+pluginTwinkleplop({
+  languages: {
+    // Highlight code blocks nested in MDX using all configured languages.
+    mdx: { embed: (languages) => mdx({ languages }) },
+  },
+})
+```
+
+With the configuration above, the following MDX document is highlighted:
+
+<Preview>
+
+<Fragment slot="preview">
+
+````mdx title="example.mdx"
+---
+title: My page title
+---
+
+import { Card } from '@astrojs/starlight/components'
+
+Some **bold** and _italic_ text.
+
+<Card title="Check this out">Interesting content you want to highlight.</Card>
+
+```ts
+const foo: string = 'bar'
+```
+````
+
+</Fragment>
+
+</Preview>

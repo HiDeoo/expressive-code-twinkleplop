@@ -1,0 +1,148 @@
+---
+title: Configuration
+description: An overview of all the configuration options supported by the Expressive Code Twinkleplop plugin.
+---
+
+The Twinkleplop plugin can be configured in your Expressive Code configuration:
+
+import { Tabs, TabItem } from '@astrojs/starlight/components'
+
+<Tabs syncKey="ec-config">
+
+<TabItem label="Astro">
+
+```js title="astro.config.mjs" {11}
+import { defineConfig } from 'astro/config'
+import astroExpressiveCode from 'astro-expressive-code'
+import { pluginTwinkleplop } from 'expressive-code-twinkleplop'
+
+export default defineConfig({
+  integrations: [
+    astroExpressiveCode({
+      shiki: false,
+      plugins: [
+        pluginTwinkleplop({
+          // Configuration options go here.
+        }),
+      ],
+    }),
+  ],
+})
+```
+
+</TabItem>
+
+<TabItem label="Starlight">
+
+```js title="astro.config.mjs" {13}
+import { defineConfig } from 'astro/config'
+import starlight from '@astrojs/starlight'
+import { pluginTwinkleplop } from 'expressive-code-twinkleplop'
+
+export default defineConfig({
+  integrations: [
+    starlight({
+      title: 'My Starlight site',
+      expressiveCode: {
+        shiki: false,
+        plugins: [
+          pluginTwinkleplop({
+            // Configuration options go here.
+          }),
+        ],
+      },
+    }),
+  ],
+})
+```
+
+</TabItem>
+
+<TabItem label="EC configuration file">
+
+```js title="ec.config.mjs" {7}
+import { pluginTwinkleplop } from 'expressive-code-twinkleplop'
+
+export default {
+  shiki: false,
+  plugins: [
+    pluginTwinkleplop({
+      // Configuration options go here.
+    }),
+  ],
+}
+```
+
+</TabItem>
+
+</Tabs>
+
+## Plugin configuration
+
+The Expressive Code Twinkleplop plugin accepts the following configuration options:
+
+### `languages`
+
+**Type:** <code>Record\<string, [LanguageConfig](#language-configuration)\></code>  
+**Required**
+
+The languages to highlight.
+
+Each key is the language identifier used in code blocks, e.g. `ts` for code blocks starting with ` ```ts `, and each value is the [configuration of the language](#language-configuration).
+
+```js {4}
+import { tokenize as typescript } from '@twinkleplop/typescript'
+
+pluginTwinkleplop({
+  languages: { ts: typescript() },
+})
+```
+
+Check the ["Languages" guide](/guides/languages/) for more information.
+
+### `defaultLanguage`
+
+**Type:** `string`
+
+The language used to highlight code blocks that do not specify a language.
+
+The value must be the identifier of a language configured in the [`languages`](#languages) option.
+By default, code blocks that do not specify a language are not highlighted.
+
+### `onUnknownLanguage`
+
+**Type:** `'plain' | 'throw'`  
+**Default:** `'plain'`
+
+Defines how code blocks using a language that is not configured in the [`languages`](#languages) option are handled.
+
+- **`plain`** renders the code block without syntax highlighting and logs a warning.
+- **`throw`** throws an error.
+
+Setting this option to `'throw'` can be useful when migrating to Twinkleplop to make sure all code blocks have a configured language.
+
+## Language configuration
+
+Each language in the [`languages`](#languages) option can be configured using one of the following values:
+
+- [**Language**](/guides/languages/#twinkleplop-languages): The result of calling the `tokenize` export of a Twinkleplop language package, e.g. `typescript()`.
+- [**Alias**](/guides/languages/#aliases): The identifier of another language configured in the [`languages`](#languages) option, e.g. `'ts'` to highlight `typescript` code blocks like `ts` code blocks.
+- [**Embedding language**](/guides/languages/#embedding-languages): An object with an `embed` function receiving all configured languages and returning a language, used to highlight code blocks nested in other code blocks, e.g. in Markdown.
+
+```js {6-11}
+import { tokenize as markdown } from '@twinkleplop/markdown'
+import { tokenize as typescript } from '@twinkleplop/typescript'
+
+pluginTwinkleplop({
+  languages: {
+    // Configure the `ts` language identifier.
+    ts: typescript(),
+    // Alias the `typescript` language identifier to `ts`.
+    typescript: 'ts',
+    // Highlight code blocks nested in Markdown using all configured languages.
+    md: { embed: (languages) => markdown({ languages }) },
+  },
+})
+```
+
+Check the ["Languages" guide](/guides/languages/) for more information.
