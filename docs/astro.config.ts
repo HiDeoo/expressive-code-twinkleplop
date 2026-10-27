@@ -5,8 +5,6 @@ const site =
   (process.env['CONTEXT'] === 'production' ? process.env['URL'] : process.env['DEPLOY_PRIME_URL']) ??
   'https://expressive-code-twinkleplop.netlify.app/'
 
-// TODO(HiDeoo) favicon
-
 export default defineConfig({
   integrations: [
     starlight({
