@@ -27,7 +27,8 @@ export default defineConfig({
           tag: 'meta',
           attrs: {
             property: 'og:image:alt',
-            content: '// TODO(HiDeoo) desc',
+            content:
+              'Expressive Code plugin to use Twinkleplop as a syntax highlighter: all the features you already use, at the speed of Twinkleplop.',
           },
         },
       ],
@@ -53,7 +54,7 @@ export default defineConfig({
           label: 'GitHub',
         },
       ],
-      title: '// TODO(HiDeoo) ',
+      title: 'Expressive Code Twinkleplop',
     }),
   ],
   site,
