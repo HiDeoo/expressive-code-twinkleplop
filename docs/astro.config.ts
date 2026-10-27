@@ -10,7 +10,8 @@ const site =
 export default defineConfig({
   integrations: [
     starlight({
-      description: '// TODO(HiDeoo) desc',
+      description:
+        'Expressive Code plugin to use Twinkleplop as a syntax highlighter: all the features you already use, at the speed of Twinkleplop.',
       editLink: {
         baseUrl: 'https://github.com/HiDeoo/expressive-code-twinkleplop/edit/main/docs/',
       },
