@@ -1,11 +1,6 @@
 <div align="center">
-  <h1>expressive-code-twinkleplop 🚧</h1>
-  <p>expressive-code-twinkleplop description</p>
-  <p>
-    <a href="https://dummyimage.com/520x350/121212/cdc8be.png&text=screenshot" title="Screenshot of expressive-code-twinkleplop">
-      <img alt="Screenshot of expressive-code-twinkleplop" src="https://dummyimage.com/520x350/121212/cdc8be.png&text=screenshot" width="520" />
-    </a>
-  </p>
+  <h1>expressive-code-twinkleplop 💫</h1>
+  <p>Expressive Code plugin to use Twinkleplop as a syntax highlighter: all the features you already use, at the speed of Twinkleplop.</p>
 </div>
 
 <div align="center">
@@ -18,12 +13,9 @@
   <br />
 </div>
 
-## Features
+## Getting Started
 
-expressive-code-twinkleplop presentation.
-
-- expressive-code-twinkleplop feature 1
-- expressive-code-twinkleplop feature 2
+Want to get started immediately? Check out the [getting started guide](https://expressive-code-twinkleplop.netlify.app/getting-started/) or check out the [demo](https://expressive-code-twinkleplop.netlify.app/) page to see the plugin in action.
 
 ## License
 
