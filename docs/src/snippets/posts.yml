@@ -1,0 +1,10 @@
+- id: 1
+  title: Hello world
+  slug: hello-world
+  publishedAt: '2026-10-27'
+  draft: false
+- id: 2
+  title: Coming soon
+  slug: coming-soon
+  publishedAt: null
+  draft: true

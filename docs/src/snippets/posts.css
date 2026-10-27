@@ -1,0 +1,16 @@
+.post {
+  --accent: oklch(70% 0.15 250);
+
+  border-inline-start: 2px solid var(--accent);
+  padding: 0.5rem 1rem;
+}
+
+.post:hover h2 {
+  color: var(--accent);
+}
+
+@media (min-width: 50rem) {
+  .post {
+    padding-inline: 2rem;
+  }
+}

@@ -211,9 +211,27 @@ importers:
       '@hideoo/starlight-plugins-docs-components':
         specifier: ^0.5.0
         version: 0.5.0(@astrojs/starlight@0.42.6(astro@7.4.0(@types/node@24.19.2)(yaml@2.9.1))(typescript@6.0.3))
+      '@twinkleplop/bash':
+        specifier: ^0.1.7
+        version: 0.1.7
+      '@twinkleplop/css':
+        specifier: ^0.1.7
+        version: 0.1.7
+      '@twinkleplop/html':
+        specifier: ^0.1.7
+        version: 0.1.7
+      '@twinkleplop/javascript':
+        specifier: ^0.1.7
+        version: 0.1.7
+      '@twinkleplop/json':
+        specifier: ^0.1.7
+        version: 0.1.7
       '@twinkleplop/markdown':
         specifier: ^0.2.1
         version: 0.2.1
+      '@twinkleplop/rust':
+        specifier: ^0.1.7
+        version: 0.1.7
       '@twinkleplop/typescript':
         specifier: ^0.1.7
         version: 0.1.7
@@ -1183,6 +1201,9 @@ packages:
   '@shikijs/vscode-textmate@10.0.2':
     resolution: {integrity: sha512-83yeghZ2xxin3Nj8z1NMd/NCuca+gsYXswywDy5bHvwlWL8tpTQmzGeUuHd9FC3E/SBEMvzJRwWEOz5gGes9Qg==}
 
+  '@twinkleplop/bash@0.1.7':
+    resolution: {integrity: sha512-/cBFzqKcfffT6aaWlSeUhjoXJS3VhG4Tz1sg1oJILooVlbD3WX2Ke+zRWFLS+GmoXrl8hlQF/ZsMNmila41/Jw==}
+
   '@twinkleplop/core@0.3.1':
     resolution: {integrity: sha512-fMbce7NcJlVROsyI34tz3DCWkAWRWLRlBNCbgwz36mm6yoEO09eyafi8JRN5HJGQIzMr0qjXQ3t3asc7MFSh8Q==}
 
@@ -1195,8 +1216,14 @@ packages:
   '@twinkleplop/javascript@0.1.7':
     resolution: {integrity: sha512-qZDFx0bTM8YdKBTCxIS+6dZ1itaTnn1Udf2wFW5Uo+S6liGm40Lq2rlCk3PYa+Hm4lmX6HSzFeO4ZaDqk6Cn9Q==}
 
+  '@twinkleplop/json@0.1.7':
+    resolution: {integrity: sha512-3V2BmcvHCF7MTmDxNSk0sliZqwW1BDB29ZQY2W07auiOGyPQJVhYPiyeoIIN51Q02YnvSg+hxfXSRY9FptMJKg==}
+
   '@twinkleplop/markdown@0.2.1':
     resolution: {integrity: sha512-uff5OXuSnlSWuPCYJWCQ+yMsOAvGCzljP8mIDQ4oj2ezkMAdhwh/McNXZ1odg4xpSp7hlwbu+UHbRl5FvG4kSQ==}
+
+  '@twinkleplop/rust@0.1.7':
+    resolution: {integrity: sha512-xCSZtBzqrtg9ZTp4rBI/Wj+SezlQgC33JD5rokTpjiOJCgkCRudHvHqMpp8JUN+n1rN3evqe+HVRQNvuU5xhIw==}
 
   '@twinkleplop/tsx@0.1.7':
     resolution: {integrity: sha512-Vx7821K7/cciCZPpVj1gsxHp6pI75frlMVGoqtu8QjZH9l26DaiIM3wcv1NqvMDsNnQX7vOV1cTAXawJ9wyB5g==}
@@ -4529,6 +4556,10 @@ snapshots:
 
   '@shikijs/vscode-textmate@10.0.2': {}
 
+  '@twinkleplop/bash@0.1.7':
+    dependencies:
+      '@twinkleplop/core': 0.3.1
+
   '@twinkleplop/core@0.3.1': {}
 
   '@twinkleplop/css@0.1.7':
@@ -4547,7 +4578,15 @@ snapshots:
       '@twinkleplop/css': 0.1.7
       '@twinkleplop/html': 0.1.7
 
+  '@twinkleplop/json@0.1.7':
+    dependencies:
+      '@twinkleplop/core': 0.3.1
+
   '@twinkleplop/markdown@0.2.1':
+    dependencies:
+      '@twinkleplop/core': 0.3.1
+
+  '@twinkleplop/rust@0.1.7':
     dependencies:
       '@twinkleplop/core': 0.3.1
 
