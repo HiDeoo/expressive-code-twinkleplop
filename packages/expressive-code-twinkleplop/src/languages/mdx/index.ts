@@ -48,6 +48,14 @@ export function tokenize(options?: MdxLanguageOptions): LanguageFn {
 }
 
 export interface MdxLanguageOptions extends LanguageOptions {
-  // TODO(HiDeoo)
+  /**
+   * The languages used to highlight code blocks nested in MDX documents, where each key is a language identifier and
+   * each value is the result of calling the `tokenize` export of a Twinkleplop language package.
+   *
+   * To use all languages configured in the Twinkleplop plugin, configure the MDX language as an embedding language,
+   * e.g. `mdx: { embed: (languages) => mdx({ languages }) }`.
+   *
+   * @see https://expressive-code-twinkleplop.netlify.app/guides/languages/#embedding-languages
+   */
   languages?: Record<string, LanguageFn> | undefined
 }

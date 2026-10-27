@@ -121,6 +121,11 @@ interface TwinkleplopTokenizeResult {
 }
 
 interface EmbeddingLanguage {
-  // TODO(HiDeoo)
+  /**
+   * A function receiving all languages configured in the `languages` option, including aliases, and returning the
+   * result of calling the `tokenize` export of a Twinkleplop language package with them.
+   *
+   * @see https://expressive-code-twinkleplop.netlify.app/guides/languages/#embedding-languages
+   */
   embed: (languages: Record<string, TwinkleplopTokenizer>) => TwinkleplopTokenizer
 }

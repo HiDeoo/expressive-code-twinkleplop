@@ -110,10 +110,31 @@ export function pluginTwinkleplop(options: PluginTwinkleplopOptions): Expressive
 }
 
 export interface PluginTwinkleplopOptions {
-  // TODO(HiDeoo)
+  /**
+   * The language used to highlight code blocks that do not specify a language.
+   *
+   * The value must be the identifier of a language configured in the `languages` option. By default, code blocks that
+   * do not specify a language are not highlighted.
+   */
   defaultLanguage?: string | undefined
-  // TODO(HiDeoo)
+  /**
+   * The languages to highlight.
+   *
+   * Each key is the language identifier used in code blocks, e.g. `ts`, and each value is the configuration of the
+   * language:
+   *
+   * - The result of calling the `tokenize` export of a Twinkleplop language package, e.g. `typescript()`.
+   * - The identifier of another language configured in this option to use as an alias, e.g. `'ts'`.
+   * - An object with an `embed` function to highlight code blocks nested in other code blocks, e.g. in Markdown.
+   */
   languages: Record<string, Language>
-  // TODO(HiDeoo)
+  /**
+   * Defines how code blocks using a language that is not configured in the `languages` option are handled.
+   *
+   * - `'plain'` renders the code block without syntax highlighting and logs a warning.
+   * - `'throw'` throws an error.
+   *
+   * @default 'plain'
+   */
   onUnknownLanguage?: 'plain' | 'throw' | undefined
 }
